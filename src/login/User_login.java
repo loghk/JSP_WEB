@@ -34,32 +34,32 @@ public class User_login extends HttpServlet {
         String id = req.getParameter("id");
         String password = MD5Util.encode(req.getParameter("upwd"));
 
-        String sql = "select * from user where id ='"+id+"'";
-        System.out.println("----------"+sql);
+        String sql = "select * from user where id ='" + id + "'";
+        System.out.println("----------" + sql);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 String uname = resultSet.getString("username");
                 String uid = resultSet.getString("id");
                 String upwd = resultSet.getString("password");
                 System.out.println(uname);
                 System.out.println(uid);
                 System.out.println(upwd);
-                if (uid.equals(id)&&upwd.equals(password)){
+                if (uid.equals(id) && upwd.equals(password)) {
                     System.out.println("----------------成功登陆");
                     HttpSession session = req.getSession();
                     session.setAttribute("logined", true);
                     this.getServletContext().setAttribute("uname", uname);
                     resp.sendRedirect("/welcome.jsp");
-                }else {
+                } else {
                     out.println("<center>");
                     out.println("<h1>用户名或密码不正确!</h1>");
                     out.println("<br/>");
                     out.println("<a href='index.html'>重新登陆</a>");
                     out.println("</center>");
                 }
-            }else {
+            } else {
                 out.println("<center>");
                 out.println("<h1>用户名不存在!</h1>");
                 out.println("<br/>");
